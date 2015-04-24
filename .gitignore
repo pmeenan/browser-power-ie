@@ -24,3 +24,4 @@ src/Release/
 /src/browser-power_i.c
 /src/browser-power_i.h
 /src/browser-power_p.c
+/src/*.opensdf

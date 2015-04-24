@@ -64,7 +64,6 @@ public:
 
 private:
   CComQIPtr<IWebBrowser2> _web_browser;
-  Power   _power;
 
 // leave this public empty to support the DECLARE_PROTECT_FINAL_CONSTRUCT macro
 public:

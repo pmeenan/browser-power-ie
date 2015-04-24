@@ -20,12 +20,10 @@ extern "C"   {
 #endif
 
 EXTERN_PROXY_FILE( browser2Dpower )
-EXTERN_PROXY_FILE( browser2Dpower )
 
 
 PROXYFILE_LIST_START
 /* Start of list */
-  REFERENCE_PROXY_FILE( browser2Dpower ),
   REFERENCE_PROXY_FILE( browser2Dpower ),
 /* End of list */
 PROXYFILE_LIST_END
@@ -34,6 +32,11 @@ PROXYFILE_LIST_END
 DLLDATA_ROUTINES( aProxyFileList, GET_DLL_CLSID )
 
 #ifdef __cplusplus
+}  /*extern "C" */
+#endif
+
+/* end of generated dlldata file */
+__cplusplus
 }  /*extern "C" */
 #endif
 

@@ -17,6 +17,7 @@ const DWORD WATCHDOG_INTERVAL = 60000;
 Power::Power(void):
   _active(false)
   ,_message_window(NULL) {
+  AtlTrace(_T("Power::Power"));
 }
 
 
@@ -24,6 +25,7 @@ Power::Power(void):
 -----------------------------------------------------------------------------*/
 Power::~Power(void) {
   global_power = NULL;
+  AtlTrace(_T("Power::~Power"));
 }
 
 /*-----------------------------------------------------------------------------
@@ -93,7 +95,7 @@ void Power::OnScrollTimer(void) {
 
 /*-----------------------------------------------------------------------------
 -----------------------------------------------------------------------------*/
-void Power::Start(CComPtr<IWebBrowser2> web_browser) {
+void Power::Start() {
   AtlTrace(_T("[browser-power] - Start"));
   if (!_active) {
     _active = true;
@@ -109,7 +111,6 @@ void Power::Start(CComPtr<IWebBrowser2> web_browser) {
           dll_hinstance, NULL);
       if (_message_window) {
         if (_power_interface.Start()) {
-          _web_browser = web_browser;
           SetTimer(_message_window, 1, WATCHDOG_INTERVAL, NULL);
           GetNextTask();
         }
@@ -159,20 +160,20 @@ void Power::ProcessTask() {
 /*-----------------------------------------------------------------------------
 -----------------------------------------------------------------------------*/
 void Power::Stop(void) {
+  _active = false;
   if (_message_window) {
     // kill any timers we may have active
     for (int i = 1; i < 10; i++)
       KillTimer(_message_window, i);
     DestroyWindow(_message_window);
   }
-  _web_browser.Release();
 }
 
 /*-----------------------------------------------------------------------------
 -----------------------------------------------------------------------------*/
 void Power::OnLoad() {
   KillTimer(_message_window, 2);
-  if (_active) {
+  if (_active && !_task.did_load_ok) {
     _task.did_load_ok = true;
     AtlTrace(_T("[browser-power] - Power::OnLoad()"));
     ProcessTask();
@@ -181,8 +182,19 @@ void Power::OnLoad() {
 
 /*-----------------------------------------------------------------------------
 -----------------------------------------------------------------------------*/
+void Power::OnLoadError() {
+  KillTimer(_message_window, 2);
+  if (_active && !_task.did_load_ok) {
+    AtlTrace(_T("[browser-power] - Power::OnLoadError()"));
+    _task.valid = false;
+    ProcessTask();
+  }
+}
+
+/*-----------------------------------------------------------------------------
+-----------------------------------------------------------------------------*/
 void  Power::NavigateTo(CString url) {
-  AtlTrace(CString(_T("[browser-power] NavigateTo: ")) + url);
+  OutputDebugString(_T("[browser-power] NavigateTo ") + url);
   SetTimer(_message_window, 2, NAVIGATE_TIMEOUT, NULL);
   _task.did_load = true;
   if (_web_browser) {

@@ -7,17 +7,18 @@ class Power {
 public:
   Power(void);
   ~Power(void);
-  void Start(CComPtr<IWebBrowser2> web_browser);
+  void Start();
   void Stop(void);
   bool OnMessage(UINT message, WPARAM wParam, LPARAM lParam);
 
   // browser events
   void  OnLoad();
+  void  OnLoadError();
 
   bool _active;
+  CComPtr<IWebBrowser2> _web_browser;
 
 private:
-  CComPtr<IWebBrowser2> _web_browser;
   PowerInterface        _power_interface;
   HWND                  _message_window;
   PowerTask             _task;
