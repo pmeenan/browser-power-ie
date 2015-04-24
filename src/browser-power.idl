@@ -1,0 +1,34 @@
+// browser-power.idl : IDL source for browser-power
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (browser-power.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	object,
+	uuid(2392A0A6-2DA6-4F47-8558-13E52BD1CF42),
+	dual,
+	nonextensible,
+	pointer_default(unique)
+]
+interface IBrowserPower : IDispatch{
+};
+[
+	uuid(172353AE-60FD-47A6-A41A-6FF440DB3173),
+	version(1.0),
+]
+library browserpowerLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(A182884A-2C00-4644-AF5C-71FD9ACA6B13)		
+	]
+	coclass BrowserPower
+	{
+		[default] interface IBrowserPower;
+	};
+};
+

@@ -1,0 +1,39 @@
+HKCR
+{
+	NoRemove CLSID
+	{
+		ForceRemove {A182884A-2C00-4644-AF5C-71FD9ACA6B13} = s 'BrowserPower Class'
+		{
+			ForceRemove Programmable
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			TypeLib = s '{172353AE-60FD-47A6-A41A-6FF440DB3173}'
+			Version = s '1.0'
+		}
+	}
+}
+
+HKLM
+{
+	NoRemove SOFTWARE
+	{
+		NoRemove Microsoft
+		{	
+			NoRemove Windows
+			{
+				NoRemove CurrentVersion
+				{
+					NoRemove Explorer
+					{
+						NoRemove 'Browser Helper Objects'
+						{
+							ForceRemove {A182884A-2C00-4644-AF5C-71FD9ACA6B13} = s 'BrowserPower'
+						}
+					}
+				}
+			}
+		}
+	}
+}
